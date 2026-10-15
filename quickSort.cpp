@@ -5,7 +5,9 @@ using namespace std;
 // You might want to use this function in the function partition().
 void swap(int& a, int& b) 
 { 
-
+	int temp = a;
+	a = b;
+	b = temp;
 } 
   
 // This function partitions sub-array A[p..r]. It takes last element in the sub-array, i.e., A[r], as pivot, 
@@ -15,7 +17,21 @@ void swap(int& a, int& b)
 // You might want to use this function in the function quickSort().
 int partition (int A[], int p, int r) 
 { 
+	//Last Element Pivot
+	int pivot = A[r];
+	//Index is -1 but will increment before A[i] is ever called
+    int i = (p - 1);
 
+    for (int j = p; j <= r - 1; j++) {
+        // If current element is smaller than the pivot
+        if (A[j] < pivot) {
+            i++;
+            swap(A[i], A[j]);
+        }
+    }
+    //Swap Pivot Always
+    swap(A[i + 1], A[r]);
+    return (i + 1);
 } 
   
 // using quickSort to sort sub-array A[p..r]  
@@ -23,7 +39,14 @@ int partition (int A[], int p, int r)
 // sub-array of A[] to be sorted
 void quickSort(int A[], int p, int r) 
 { 
- 
+	//Base case
+    if (p < r) {
+        int q = partition(A, p, r);
+
+        //Separately sort elements before partition and after partition
+        quickSort(A, p, q - 1);
+        quickSort(A, q + 1, r);
+    }
 } 
   
 
